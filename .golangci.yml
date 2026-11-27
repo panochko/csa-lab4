@@ -1,0 +1,38 @@
+version: "2"
+linters:
+  default: all
+  disable:
+    # Стилевые проверки, противоречащие учебной задаче.
+    - depguard # зависимостей кроме стандартной библиотеки нет
+    - funcorder # методы сгруппированы по блокам процессора, а не по видимости
+    - testpackage # тесты тактов смотрят на внутреннее состояние модели
+    - err113 # сообщения об ошибках не сравниваются программно
+    - exhaustruct # нулевые поля микроинструкции означают «сигнал не подан»
+    - forbidigo # консольные приложения печатают через fmt
+    - gochecknoglobals # таблицы опкодов — неизменяемые «ПЗУ»
+    - mnd # битовые поля формата инструкций читаются нагляднее числами
+    - gosec # преобразования int32/uint32 — моделирование машинного слова
+    - varnamelen # a, b, r — принятые имена входов АЛУ и регистров
+    - nlreturn
+    - wsl
+    - wsl_v5
+    - noinlineerr
+    - gosmopolitan # комментарии и сообщения на русском
+    - lll
+    - paralleltest # по требованию преподавателя без многопоточности
+    - tparallel
+    - ireturn
+    - wrapcheck
+    # Размер функций: декодеры и кодогенератор — это большие switch по опкодам.
+    - cyclop
+    - gocognit
+    - gocyclo
+    - funlen
+    - nestif
+  settings:
+    exhaustive:
+      default-signifies-exhaustive: true # default обрабатывает остальные опкоды
+formatters:
+  enable:
+    - gofmt
+    - goimports

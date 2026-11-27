@@ -1,0 +1,123 @@
+00  AR<-PC                     next
+01  DR<-mem[AR], PC<-PC+4      next
+02  IR<-DR                     by opcode
+03  BR<-reg                    return
+04  AR<-PC                     next
+05  DR<-mem[AR], PC<-PC+4      next
+06  BR<-DR                     return
+07  AR<-PC                     next
+08  DR<-mem[AR], PC<-PC+4      next
+09  AR<-DR                     next
+10  DR<-mem[AR]                next
+11  BR<-DR                     return
+12  AR<-reg                    next
+13  DR<-mem[AR]                next
+14  BR<-DR                     return
+15  AR<-PC                     next
+16  DR<-mem[AR], PC<-PC+4      next
+17  AR<-reg+DR                 next
+18  DR<-mem[AR]                next
+19  BR<-DR                     return
+20  AR<-PC                     next
+21  DR<-mem[AR], PC<-PC+4      next
+22  AR<-DR                     return
+23  AR<-reg                    return
+24  AR<-PC                     next
+25  DR<-mem[AR], PC<-PC+4      next
+26  AR<-reg+DR                 return
+27  SPEC<-IR.spec1             call src
+28  SPEC<-IR.spec2             dst
+29  reg<-reg op BR             jump 00
+30  DR<-mem[AR]                next
+31  DR<-DR op BR               next
+32  mem[AR]<-DR                jump 00
+33  SPEC<-IR.spec1             call src
+34  SPEC<-IR.spec2             dst
+35  NZVC<-reg-BR               jump 00
+36  DR<-mem[AR]                next
+37  NZVC<-DR-BR                jump 00
+38  SPEC<-IR.spec1             call src
+39  SPEC<-IR.spec2             dst
+40  reg<-BR                    jump 00
+41  DR<-BR                     next
+42  mem[AR]<-DR                jump 00
+43  CNT<-IR.spec2              next
+44  rd<-neutral                next
+45  AR<-PC                     next
+46  DR<-mem[AR], PC<-PC+4      next
+47  SPEC<-DR[31:24]            call src
+48  rd<-rd op BR               next
+49  CNT<-CNT-1                 cnt loop 45
+50  SPEC<-IR.spec1             call src
+51  if cond: PC<-BR            jump 00
+52  SPEC<-IR.spec1             call src
+53  SP<-SP-4                   next
+54  AR<-SP                     next
+55  DR<-PC                     next
+56  mem[AR]<-DR                next
+57  PC<-BR                     jump 00
+58  AR<-SP                     next
+59  DR<-mem[AR]                next
+60  PC<-DR                     next
+61  SP<-SP+4                   jump 00
+62  halt                       halt
+63  SPEC<-IR.spec1             call src
+64  SP<-SP-4                   next
+65  AR<-SP                     next
+66  DR<-BR                     next
+67  mem[AR]<-DR                jump 00
+68  AR<-SP                     next
+69  DR<-mem[AR]                next
+70  BR<-DR                     next
+71  SP<-SP+4                   next
+72  SPEC<-IR.spec2             dst
+73  reg<-BR                    jump 00
+74  DR<-BR                     next
+75  mem[AR]<-DR                jump 00
+76  BR<-port                   next
+77  SPEC<-IR.spec2             dst
+78  reg<-BR                    jump 00
+79  DR<-BR                     next
+80  mem[AR]<-DR                jump 00
+81  SPEC<-IR.spec1             call src
+82  port<-BR                   jump 00
+
+opcode -> mPC:
+  halt  62
+  mov   38
+  add   27
+  adc   27
+  sub   27
+  sbc   27
+  mul   27
+  mulh  27
+  div   27
+  mod   27
+  and   27
+  or    27
+  xor   27
+  cmp   33
+  addn  43
+  muln  43
+  jmp   50
+  jz    50
+  jnz   50
+  jl    50
+  jle   50
+  jg    50
+  jge   50
+  jc    50
+  call  52
+  ret   58
+  push  63
+  pop   68
+  in    76
+  out   81
+  shr   27
+
+mode -> mPC (src, dst):
+  reg    03  -
+  imm    04  -
+  abs    07  20
+  ind    12  23
+  based  15  24

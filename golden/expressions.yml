@@ -1,0 +1,318 @@
+in_source: |2+
+  ; Всё является выражением; рекурсия; addn/muln с переменным числом операндов.
+  (defun fib (n)
+    (if (< n 2)
+        n
+        (+ (fib (- n 1)) (fib (- n 2)))))
+
+  (defun show (x)
+    (print-int x)
+    (print-char #\newline))
+
+  (setq x 1)
+  (print-str (if (= 1 x) "T\n" "F\n"))
+  (setq x (if (= 1 x) 2 3))
+  (show x)
+  (show (setq x 13))
+  (setq i 0)
+  (setq x (while (< i 5)
+            (setq i (+ i 1))
+            (* i i)))
+  (show x)
+  (show (+ x i 100 1000))
+  (show (* 2 3 4 5))
+  (show (+ (fib 3) (fib 4) (fib 5)))
+  (show (fib 12))
+in_input: ""
+in_log_head: 60
+in_log_tail: 15
+out_code: |2+
+  # code
+  0000 - 01161700 - mov sp, fp ; main
+  0004 - 04201600 00000004 - sub #4, sp ; main
+  000C - 01201000 00000001 - mov #1, r0 ; (setq x 1)
+  0014 - 01103000 00000558 - mov r0, [1368] ; (setq x 1)
+  001C - 01201000 00000001 - mov #1, r0 ; (if (= 1 x) "T\n" "F\n")
+  0024 - 0D301000 00000558 - cmp [1368], r0 ; (if (= 1 x) "T\n" "F\n")
+  002C - 12200000 00000044 - jnz #68 ; (if (= 1 x) "T\n" "F\n")
+  0034 - 01201000 0000055C - mov #1372, r0 ; (if (= 1 x) "T\n" "F\n")
+  003C - 10200000 0000004C - jmp #76 ; (if (= 1 x) "T\n" "F\n")
+  0044 - 01201000 00000568 - mov #1384, r0 ; (if (= 1 x) "T\n" "F\n")
+  004C - 1A100000 - push r0 ; (print-str (if (= 1 x) "T\n" "F\n"))
+  0050 - 18200000 00000290 - call #656 ; (print-str (if (= 1 x) "T\n" "F\n"))
+  0058 - 02201600 00000004 - add #4, sp ; (print-str (if (= 1 x) "T\n" "F\n"))
+  0060 - 01201000 00000001 - mov #1, r0 ; (if (= 1 x) 2 3)
+  0068 - 0D301000 00000558 - cmp [1368], r0 ; (if (= 1 x) 2 3)
+  0070 - 12200000 00000088 - jnz #136 ; (if (= 1 x) 2 3)
+  0078 - 01201000 00000002 - mov #2, r0 ; (if (= 1 x) 2 3)
+  0080 - 10200000 00000090 - jmp #144 ; (if (= 1 x) 2 3)
+  0088 - 01201000 00000003 - mov #3, r0 ; (if (= 1 x) 2 3)
+  0090 - 01103000 00000558 - mov r0, [1368] ; (setq x (if (= 1 x) 2 3))
+  0098 - 1A300000 00000558 - push [1368] ; (show x)
+  00A0 - 18200000 00000358 - call #856 ; (show x)
+  00A8 - 02201600 00000004 - add #4, sp ; (show x)
+  00B0 - 01201000 0000000D - mov #13, r0 ; (setq x 13)
+  00B8 - 01103000 00000558 - mov r0, [1368] ; (setq x 13)
+  00C0 - 1A100000 - push r0 ; (show (setq x 13))
+  00C4 - 18200000 00000358 - call #856 ; (show (setq x 13))
+  00CC - 02201600 00000004 - add #4, sp ; (show (setq x 13))
+  00D4 - 01201000 00000000 - mov #0, r0 ; (setq i 0)
+  00DC - 01103000 00000554 - mov r0, [1364] ; (setq i 0)
+  00E4 - 01205700 00000000 FFFFFFFC - mov #0, [fp-4] ; (while (< i 5) (setq i (+ i 1)) (* i i))
+  00F0 - 01301000 00000554 - mov [1364], r0 ; (while (< i 5) (setq i (+ i 1)) (* i i))
+  00F8 - 0D201000 00000005 - cmp #5, r0 ; (while (< i 5) (setq i (+ i 1)) (* i i))
+  0100 - 16200000 0000013C - jge #316 ; (while (< i 5) (setq i (+ i 1)) (* i i))
+  0108 - 02203000 00000001 00000554 - add #1, [1364] ; (setq i (+ i 1))
+  0114 - 01301000 00000554 - mov [1364], r0 ; (setq i (+ i 1))
+  011C - 01301000 00000554 - mov [1364], r0 ; (* i i)
+  0124 - 06301000 00000554 - mul [1364], r0 ; (* i i)
+  012C - 01105700 FFFFFFFC - mov r0, [fp-4] ; (while (< i 5) (setq i (+ i 1)) (* i i))
+  0134 - 10200000 000000F0 - jmp #240 ; (while (< i 5) (setq i (+ i 1)) (* i i))
+  013C - 01571000 FFFFFFFC - mov [fp-4], r0 ; (while (< i 5) (setq i (+ i 1)) (* i i))
+  0144 - 01103000 00000558 - mov r0, [1368] ; (setq x (while (< i 5) (setq i (+ i 1)) (* i i)))
+  014C - 1A300000 00000558 - push [1368] ; (show x)
+  0154 - 18200000 00000358 - call #856 ; (show x)
+  015C - 02201600 00000004 - add #4, sp ; (show x)
+  0164 - 0E100400 30000000 00000558 30000000 00000554 20000000 00000064 20000000 000003E8 - addn r0, 4, [1368], [1364], #100, #1000 ; (+ x i 100 1000)
+  0188 - 1A100000 - push r0 ; (show (+ x i 100 1000))
+  018C - 18200000 00000358 - call #856 ; (show (+ x i 100 1000))
+  0194 - 02201600 00000004 - add #4, sp ; (show (+ x i 100 1000))
+  019C - 0F100400 20000000 00000002 20000000 00000003 20000000 00000004 20000000 00000005 - muln r0, 4, #2, #3, #4, #5 ; (* 2 3 4 5)
+  01C0 - 1A100000 - push r0 ; (show (* 2 3 4 5))
+  01C4 - 18200000 00000358 - call #856 ; (show (* 2 3 4 5))
+  01CC - 02201600 00000004 - add #4, sp ; (show (* 2 3 4 5))
+  01D4 - 1A200000 00000003 - push #3 ; (fib 3)
+  01DC - 18200000 00000398 - call #920 ; (fib 3)
+  01E4 - 02201600 00000004 - add #4, sp ; (fib 3)
+  01EC - 1A100000 - push r0 ; (+ (fib 3) (fib 4) (fib 5))
+  01F0 - 1A200000 00000004 - push #4 ; (fib 4)
+  01F8 - 18200000 00000398 - call #920 ; (fib 4)
+  0200 - 02201600 00000004 - add #4, sp ; (fib 4)
+  0208 - 1A100000 - push r0 ; (+ (fib 3) (fib 4) (fib 5))
+  020C - 1A200000 00000005 - push #5 ; (fib 5)
+  0214 - 18200000 00000398 - call #920 ; (fib 5)
+  021C - 02201600 00000004 - add #4, sp ; (fib 5)
+  0224 - 1A100000 - push r0 ; (+ (fib 3) (fib 4) (fib 5))
+  0228 - 0E100300 56000000 00000008 56000000 00000004 56000000 00000000 - addn r0, 3, [sp+8], [sp+4], [sp+0] ; (+ (fib 3) (fib 4) (fib 5))
+  0244 - 02201600 0000000C - add #12, sp ; (+ (fib 3) (fib 4) (fib 5))
+  024C - 1A100000 - push r0 ; (show (+ (fib 3) (fib 4) (fib 5)))
+  0250 - 18200000 00000358 - call #856 ; (show (+ (fib 3) (fib 4) (fib 5)))
+  0258 - 02201600 00000004 - add #4, sp ; (show (+ (fib 3) (fib 4) (fib 5)))
+  0260 - 1A200000 0000000C - push #12 ; (fib 12)
+  0268 - 18200000 00000398 - call #920 ; (fib 12)
+  0270 - 02201600 00000004 - add #4, sp ; (fib 12)
+  0278 - 1A100000 - push r0 ; (show (fib 12))
+  027C - 18200000 00000358 - call #856 ; (show (fib 12))
+  0284 - 02201600 00000004 - add #4, sp ; (show (fib 12))
+  028C - 00000000 - halt ; main
+  0290 - 1A170000 - push fp ; (defun print-str (s) ...)
+  0294 - 01161700 - mov sp, fp ; (defun print-str (s) ...)
+  0298 - 04201600 0000000C - sub #12, sp ; (defun print-str (s) ...)
+  02A0 - 01201000 00000001 - mov #1, r0 ; (let ((i 1) (n (load s))) (while (<= i n) (print-char (lo...
+  02A8 - 01105700 FFFFFFFC - mov r0, [fp-4] ; (let ((i 1) (n (load s))) (while (<= i n) (print-char (lo...
+  02B0 - 01571000 00000008 - mov [fp+8], r0 ; (load s)
+  02B8 - 01401000 - mov [r0], r0 ; (load s)
+  02BC - 01105700 FFFFFFF8 - mov r0, [fp-8] ; (let ((i 1) (n (load s))) (while (<= i n) (print-char (lo...
+  02C4 - 01205700 00000000 FFFFFFF4 - mov #0, [fp-12] ; (while (<= i n) (print-char (load (+ s (* i 4)))) (setq i...
+  02D0 - 01571000 FFFFFFFC - mov [fp-4], r0 ; (while (<= i n) (print-char (load (+ s (* i 4)))) (setq i...
+  02D8 - 0D571000 FFFFFFF8 - cmp [fp-8], r0 ; (while (<= i n) (print-char (load (+ s (* i 4)))) (setq i...
+  02E0 - 15200000 0000033C - jg #828 ; (while (<= i n) (print-char (load (+ s (* i 4)))) (setq i...
+  02E8 - 01571000 00000008 - mov [fp+8], r0 ; (+ s (* i 4))
+  02F0 - 1A100000 - push r0 ; (+ s (* i 4))
+  02F4 - 01571000 FFFFFFFC - mov [fp-4], r0 ; (* i 4)
+  02FC - 06201000 00000004 - mul #4, r0 ; (* i 4)
+  0304 - 01101100 - mov r0, r1 ; (+ s (* i 4))
+  0308 - 1B001000 - pop r0 ; (+ s (* i 4))
+  030C - 02111000 - add r1, r0 ; (+ s (* i 4))
+  0310 - 01401000 - mov [r0], r0 ; (load (+ s (* i 4)))
+  0314 - 1D100001 - out r0, 1 ; (print-char (load (+ s (* i 4))))
+  0318 - 02205700 00000001 FFFFFFFC - add #1, [fp-4] ; (setq i (+ i 1))
+  0324 - 01571000 FFFFFFFC - mov [fp-4], r0 ; (setq i (+ i 1))
+  032C - 01105700 FFFFFFF4 - mov r0, [fp-12] ; (while (<= i n) (print-char (load (+ s (* i 4)))) (setq i...
+  0334 - 10200000 000002D0 - jmp #720 ; (while (<= i n) (print-char (load (+ s (* i 4)))) (setq i...
+  033C - 01571000 FFFFFFF4 - mov [fp-12], r0 ; (while (<= i n) (print-char (load (+ s (* i 4)))) (setq i...
+  0344 - 01571000 FFFFFFF8 - mov [fp-8], r0 ; (let ((i 1) (n (load s))) (while (<= i n) (print-char (lo...
+  034C - 01171600 - mov fp, sp ; (defun print-str (s) ...)
+  0350 - 1B001700 - pop fp ; (defun print-str (s) ...)
+  0354 - 19000000 - ret ; (defun print-str (s) ...)
+  0358 - 1A170000 - push fp ; (defun show (x) ...)
+  035C - 01161700 - mov sp, fp ; (defun show (x) ...)
+  0360 - 04201600 00000000 - sub #0, sp ; (defun show (x) ...)
+  0368 - 1A570000 00000008 - push [fp+8] ; (print-int x)
+  0370 - 18200000 00000434 - call #1076 ; (print-int x)
+  0378 - 02201600 00000004 - add #4, sp ; (print-int x)
+  0380 - 01201000 0000000A - mov #10, r0 ; (print-char 10)
+  0388 - 1D100001 - out r0, 1 ; (print-char 10)
+  038C - 01171600 - mov fp, sp ; (defun show (x) ...)
+  0390 - 1B001700 - pop fp ; (defun show (x) ...)
+  0394 - 19000000 - ret ; (defun show (x) ...)
+  0398 - 1A170000 - push fp ; (defun fib (n) ...)
+  039C - 01161700 - mov sp, fp ; (defun fib (n) ...)
+  03A0 - 04201600 00000000 - sub #0, sp ; (defun fib (n) ...)
+  03A8 - 01571000 00000008 - mov [fp+8], r0 ; (if (< n 2) n (+ (fib (- n 1)) (fib (- n 2))))
+  03B0 - 0D201000 00000002 - cmp #2, r0 ; (if (< n 2) n (+ (fib (- n 1)) (fib (- n 2))))
+  03B8 - 16200000 000003D0 - jge #976 ; (if (< n 2) n (+ (fib (- n 1)) (fib (- n 2))))
+  03C0 - 01571000 00000008 - mov [fp+8], r0 ; (if (< n 2) n (+ (fib (- n 1)) (fib (- n 2))))
+  03C8 - 10200000 00000428 - jmp #1064 ; (if (< n 2) n (+ (fib (- n 1)) (fib (- n 2))))
+  03D0 - 01571000 00000008 - mov [fp+8], r0 ; (- n 1)
+  03D8 - 04201000 00000001 - sub #1, r0 ; (- n 1)
+  03E0 - 1A100000 - push r0 ; (fib (- n 1))
+  03E4 - 18200000 00000398 - call #920 ; (fib (- n 1))
+  03EC - 02201600 00000004 - add #4, sp ; (fib (- n 1))
+  03F4 - 1A100000 - push r0 ; (+ (fib (- n 1)) (fib (- n 2)))
+  03F8 - 01571000 00000008 - mov [fp+8], r0 ; (- n 2)
+  0400 - 04201000 00000002 - sub #2, r0 ; (- n 2)
+  0408 - 1A100000 - push r0 ; (fib (- n 2))
+  040C - 18200000 00000398 - call #920 ; (fib (- n 2))
+  0414 - 02201600 00000004 - add #4, sp ; (fib (- n 2))
+  041C - 01101100 - mov r0, r1 ; (+ (fib (- n 1)) (fib (- n 2)))
+  0420 - 1B001000 - pop r0 ; (+ (fib (- n 1)) (fib (- n 2)))
+  0424 - 02111000 - add r1, r0 ; (+ (fib (- n 1)) (fib (- n 2)))
+  0428 - 01171600 - mov fp, sp ; (defun fib (n) ...)
+  042C - 1B001700 - pop fp ; (defun fib (n) ...)
+  0430 - 19000000 - ret ; (defun fib (n) ...)
+  0434 - 1A170000 - push fp ; (defun print-int (n) ...)
+  0438 - 01161700 - mov sp, fp ; (defun print-int (n) ...)
+  043C - 04201600 00000000 - sub #0, sp ; (defun print-int (n) ...)
+  0444 - 01571000 00000008 - mov [fp+8], r0 ; (if (< n 0) (progn (print-char 45) (print-neg n)) (print-...
+  044C - 0D201000 00000000 - cmp #0, r0 ; (if (< n 0) (progn (print-char 45) (print-neg n)) (print-...
+  0454 - 16200000 00000488 - jge #1160 ; (if (< n 0) (progn (print-char 45) (print-neg n)) (print-...
+  045C - 01201000 0000002D - mov #45, r0 ; (print-char 45)
+  0464 - 1D100001 - out r0, 1 ; (print-char 45)
+  0468 - 1A570000 00000008 - push [fp+8] ; (print-neg n)
+  0470 - 18200000 000004C0 - call #1216 ; (print-neg n)
+  0478 - 02201600 00000004 - add #4, sp ; (print-neg n)
+  0480 - 10200000 000004AC - jmp #1196 ; (if (< n 0) (progn (print-char 45) (print-neg n)) (print-...
+  0488 - 01201000 00000000 - mov #0, r0 ; (- 0 n)
+  0490 - 04571000 00000008 - sub [fp+8], r0 ; (- 0 n)
+  0498 - 1A100000 - push r0 ; (print-neg (- 0 n))
+  049C - 18200000 000004C0 - call #1216 ; (print-neg (- 0 n))
+  04A4 - 02201600 00000004 - add #4, sp ; (print-neg (- 0 n))
+  04AC - 01571000 00000008 - mov [fp+8], r0 ; (defun print-int (n) ...)
+  04B4 - 01171600 - mov fp, sp ; (defun print-int (n) ...)
+  04B8 - 1B001700 - pop fp ; (defun print-int (n) ...)
+  04BC - 19000000 - ret ; (defun print-int (n) ...)
+  04C0 - 1A170000 - push fp ; (defun print-neg (n) ...)
+  04C4 - 01161700 - mov sp, fp ; (defun print-neg (n) ...)
+  04C8 - 04201600 00000000 - sub #0, sp ; (defun print-neg (n) ...)
+  04D0 - 01571000 00000008 - mov [fp+8], r0 ; (if (<= n -10) (print-neg (/ n 10)))
+  04D8 - 0D201000 FFFFFFF6 - cmp #-10, r0 ; (if (<= n -10) (print-neg (/ n 10)))
+  04E0 - 15200000 00000514 - jg #1300 ; (if (<= n -10) (print-neg (/ n 10)))
+  04E8 - 01571000 00000008 - mov [fp+8], r0 ; (/ n 10)
+  04F0 - 08201000 0000000A - div #10, r0 ; (/ n 10)
+  04F8 - 1A100000 - push r0 ; (print-neg (/ n 10))
+  04FC - 18200000 000004C0 - call #1216 ; (print-neg (/ n 10))
+  0504 - 02201600 00000004 - add #4, sp ; (print-neg (/ n 10))
+  050C - 10200000 0000051C - jmp #1308 ; (if (<= n -10) (print-neg (/ n 10)))
+  0514 - 01201000 00000000 - mov #0, r0 ; (if (<= n -10) (print-neg (/ n 10)))
+  051C - 01201000 00000030 - mov #48, r0 ; (- 48 (mod n 10))
+  0524 - 1A100000 - push r0 ; (- 48 (mod n 10))
+  0528 - 01571000 00000008 - mov [fp+8], r0 ; (mod n 10)
+  0530 - 09201000 0000000A - mod #10, r0 ; (mod n 10)
+  0538 - 01101100 - mov r0, r1 ; (- 48 (mod n 10))
+  053C - 1B001000 - pop r0 ; (- 48 (mod n 10))
+  0540 - 04111000 - sub r1, r0 ; (- 48 (mod n 10))
+  0544 - 1D100001 - out r0, 1 ; (print-char (- 48 (mod n 10)))
+  0548 - 01171600 - mov fp, sp ; (defun print-neg (n) ...)
+  054C - 1B001700 - pop fp ; (defun print-neg (n) ...)
+  0550 - 19000000 - ret ; (defun print-neg (n) ...)
+  # data
+  0554 - 00000000 - var i
+  0558 - 00000000 - var x
+  055C - 00000002 00000054 0000000A - pstr "T\n"
+  0568 - 00000002 00000046 0000000A - pstr "F\n"
+out_output: |2+
+  T
+  2
+  13
+  25
+  1130
+  120
+  10
+  144
+out_summary: |2+
+  stop: halt
+  ticks: 160606
+  instructions: 9075
+  cache read hits: 15053
+  cache read misses: 1569
+  memory writes: 1868
+  stall ticks: 79572
+out_ticks_without_cache: 247444
+out_log: |2+
+  t=1      mPC=00 IR=00000000 PC=0000 AR=0000 DR=00000000 BR=00000000 R0=00000000 R1=00000000 SP=10000 FP=00000 CNT=0 ---- | 0000 mov sp, fp | AR<-PC ; main
+  t=2      mPC=01 IR=00000000 PC=0000 AR=0000 DR=00000000 BR=00000000 R0=00000000 R1=00000000 SP=10000 FP=00000 CNT=0 ---- | 0000 mov sp, fp | DR<-mem[AR], PC<-PC+4 | MISS line 0: word 0, tick 1/10 ; main
+  t=3      mPC=01 IR=00000000 PC=0000 AR=0000 DR=00000000 BR=00000000 R0=00000000 R1=00000000 SP=10000 FP=00000 CNT=0 ---- | 0000 mov sp, fp | DR<-mem[AR], PC<-PC+4 | MISS line 0: word 0, tick 2/10 ; main
+  t=4      mPC=01 IR=00000000 PC=0000 AR=0000 DR=00000000 BR=00000000 R0=00000000 R1=00000000 SP=10000 FP=00000 CNT=0 ---- | 0000 mov sp, fp | DR<-mem[AR], PC<-PC+4 | MISS line 0: word 0, tick 3/10 ; main
+  t=5      mPC=01 IR=00000000 PC=0000 AR=0000 DR=00000000 BR=00000000 R0=00000000 R1=00000000 SP=10000 FP=00000 CNT=0 ---- | 0000 mov sp, fp | DR<-mem[AR], PC<-PC+4 | MISS line 0: word 0, tick 4/10 ; main
+  t=6      mPC=01 IR=00000000 PC=0000 AR=0000 DR=00000000 BR=00000000 R0=00000000 R1=00000000 SP=10000 FP=00000 CNT=0 ---- | 0000 mov sp, fp | DR<-mem[AR], PC<-PC+4 | MISS line 0: word 0, tick 5/10 ; main
+  t=7      mPC=01 IR=00000000 PC=0000 AR=0000 DR=00000000 BR=00000000 R0=00000000 R1=00000000 SP=10000 FP=00000 CNT=0 ---- | 0000 mov sp, fp | DR<-mem[AR], PC<-PC+4 | MISS line 0: word 0, tick 6/10 ; main
+  t=8      mPC=01 IR=00000000 PC=0000 AR=0000 DR=00000000 BR=00000000 R0=00000000 R1=00000000 SP=10000 FP=00000 CNT=0 ---- | 0000 mov sp, fp | DR<-mem[AR], PC<-PC+4 | MISS line 0: word 0, tick 7/10 ; main
+  t=9      mPC=01 IR=00000000 PC=0000 AR=0000 DR=00000000 BR=00000000 R0=00000000 R1=00000000 SP=10000 FP=00000 CNT=0 ---- | 0000 mov sp, fp | DR<-mem[AR], PC<-PC+4 | MISS line 0: word 0, tick 8/10 ; main
+  t=10     mPC=01 IR=00000000 PC=0000 AR=0000 DR=00000000 BR=00000000 R0=00000000 R1=00000000 SP=10000 FP=00000 CNT=0 ---- | 0000 mov sp, fp | DR<-mem[AR], PC<-PC+4 | MISS line 0: word 0, tick 9/10 ; main
+  t=11     mPC=01 IR=00000000 PC=0000 AR=0000 DR=00000000 BR=00000000 R0=00000000 R1=00000000 SP=10000 FP=00000 CNT=0 ---- | 0000 mov sp, fp | DR<-mem[AR], PC<-PC+4 | MISS line 0: word 0, tick 10/10 ; main
+  t=12     mPC=01 IR=00000000 PC=0000 AR=0000 DR=00000000 BR=00000000 R0=00000000 R1=00000000 SP=10000 FP=00000 CNT=0 ---- | 0000 mov sp, fp | DR<-mem[AR], PC<-PC+4 | MISS line 0: word 1, tick 1/10 ; main
+  t=13     mPC=01 IR=00000000 PC=0000 AR=0000 DR=00000000 BR=00000000 R0=00000000 R1=00000000 SP=10000 FP=00000 CNT=0 ---- | 0000 mov sp, fp | DR<-mem[AR], PC<-PC+4 | MISS line 0: word 1, tick 2/10 ; main
+  t=14     mPC=01 IR=00000000 PC=0000 AR=0000 DR=00000000 BR=00000000 R0=00000000 R1=00000000 SP=10000 FP=00000 CNT=0 ---- | 0000 mov sp, fp | DR<-mem[AR], PC<-PC+4 | MISS line 0: word 1, tick 3/10 ; main
+  t=15     mPC=01 IR=00000000 PC=0000 AR=0000 DR=00000000 BR=00000000 R0=00000000 R1=00000000 SP=10000 FP=00000 CNT=0 ---- | 0000 mov sp, fp | DR<-mem[AR], PC<-PC+4 | MISS line 0: word 1, tick 4/10 ; main
+  t=16     mPC=01 IR=00000000 PC=0000 AR=0000 DR=00000000 BR=00000000 R0=00000000 R1=00000000 SP=10000 FP=00000 CNT=0 ---- | 0000 mov sp, fp | DR<-mem[AR], PC<-PC+4 | MISS line 0: word 1, tick 5/10 ; main
+  t=17     mPC=01 IR=00000000 PC=0000 AR=0000 DR=00000000 BR=00000000 R0=00000000 R1=00000000 SP=10000 FP=00000 CNT=0 ---- | 0000 mov sp, fp | DR<-mem[AR], PC<-PC+4 | MISS line 0: word 1, tick 6/10 ; main
+  t=18     mPC=01 IR=00000000 PC=0000 AR=0000 DR=00000000 BR=00000000 R0=00000000 R1=00000000 SP=10000 FP=00000 CNT=0 ---- | 0000 mov sp, fp | DR<-mem[AR], PC<-PC+4 | MISS line 0: word 1, tick 7/10 ; main
+  t=19     mPC=01 IR=00000000 PC=0000 AR=0000 DR=00000000 BR=00000000 R0=00000000 R1=00000000 SP=10000 FP=00000 CNT=0 ---- | 0000 mov sp, fp | DR<-mem[AR], PC<-PC+4 | MISS line 0: word 1, tick 8/10 ; main
+  t=20     mPC=01 IR=00000000 PC=0000 AR=0000 DR=00000000 BR=00000000 R0=00000000 R1=00000000 SP=10000 FP=00000 CNT=0 ---- | 0000 mov sp, fp | DR<-mem[AR], PC<-PC+4 | MISS line 0: word 1, tick 9/10 ; main
+  t=21     mPC=01 IR=00000000 PC=0000 AR=0000 DR=00000000 BR=00000000 R0=00000000 R1=00000000 SP=10000 FP=00000 CNT=0 ---- | 0000 mov sp, fp | DR<-mem[AR], PC<-PC+4 | MISS line 0: word 1, tick 10/10 ; main
+  t=22     mPC=01 IR=00000000 PC=0000 AR=0000 DR=00000000 BR=00000000 R0=00000000 R1=00000000 SP=10000 FP=00000 CNT=0 ---- | 0000 mov sp, fp | DR<-mem[AR], PC<-PC+4 | MISS line 0: word 2, tick 1/10 ; main
+  t=23     mPC=01 IR=00000000 PC=0000 AR=0000 DR=00000000 BR=00000000 R0=00000000 R1=00000000 SP=10000 FP=00000 CNT=0 ---- | 0000 mov sp, fp | DR<-mem[AR], PC<-PC+4 | MISS line 0: word 2, tick 2/10 ; main
+  t=24     mPC=01 IR=00000000 PC=0000 AR=0000 DR=00000000 BR=00000000 R0=00000000 R1=00000000 SP=10000 FP=00000 CNT=0 ---- | 0000 mov sp, fp | DR<-mem[AR], PC<-PC+4 | MISS line 0: word 2, tick 3/10 ; main
+  t=25     mPC=01 IR=00000000 PC=0000 AR=0000 DR=00000000 BR=00000000 R0=00000000 R1=00000000 SP=10000 FP=00000 CNT=0 ---- | 0000 mov sp, fp | DR<-mem[AR], PC<-PC+4 | MISS line 0: word 2, tick 4/10 ; main
+  t=26     mPC=01 IR=00000000 PC=0000 AR=0000 DR=00000000 BR=00000000 R0=00000000 R1=00000000 SP=10000 FP=00000 CNT=0 ---- | 0000 mov sp, fp | DR<-mem[AR], PC<-PC+4 | MISS line 0: word 2, tick 5/10 ; main
+  t=27     mPC=01 IR=00000000 PC=0000 AR=0000 DR=00000000 BR=00000000 R0=00000000 R1=00000000 SP=10000 FP=00000 CNT=0 ---- | 0000 mov sp, fp | DR<-mem[AR], PC<-PC+4 | MISS line 0: word 2, tick 6/10 ; main
+  t=28     mPC=01 IR=00000000 PC=0000 AR=0000 DR=00000000 BR=00000000 R0=00000000 R1=00000000 SP=10000 FP=00000 CNT=0 ---- | 0000 mov sp, fp | DR<-mem[AR], PC<-PC+4 | MISS line 0: word 2, tick 7/10 ; main
+  t=29     mPC=01 IR=00000000 PC=0000 AR=0000 DR=00000000 BR=00000000 R0=00000000 R1=00000000 SP=10000 FP=00000 CNT=0 ---- | 0000 mov sp, fp | DR<-mem[AR], PC<-PC+4 | MISS line 0: word 2, tick 8/10 ; main
+  t=30     mPC=01 IR=00000000 PC=0000 AR=0000 DR=00000000 BR=00000000 R0=00000000 R1=00000000 SP=10000 FP=00000 CNT=0 ---- | 0000 mov sp, fp | DR<-mem[AR], PC<-PC+4 | MISS line 0: word 2, tick 9/10 ; main
+  t=31     mPC=01 IR=00000000 PC=0000 AR=0000 DR=00000000 BR=00000000 R0=00000000 R1=00000000 SP=10000 FP=00000 CNT=0 ---- | 0000 mov sp, fp | DR<-mem[AR], PC<-PC+4 | MISS line 0: word 2, tick 10/10 ; main
+  t=32     mPC=01 IR=00000000 PC=0000 AR=0000 DR=00000000 BR=00000000 R0=00000000 R1=00000000 SP=10000 FP=00000 CNT=0 ---- | 0000 mov sp, fp | DR<-mem[AR], PC<-PC+4 | MISS line 0: word 3, tick 1/10 ; main
+  t=33     mPC=01 IR=00000000 PC=0000 AR=0000 DR=00000000 BR=00000000 R0=00000000 R1=00000000 SP=10000 FP=00000 CNT=0 ---- | 0000 mov sp, fp | DR<-mem[AR], PC<-PC+4 | MISS line 0: word 3, tick 2/10 ; main
+  t=34     mPC=01 IR=00000000 PC=0000 AR=0000 DR=00000000 BR=00000000 R0=00000000 R1=00000000 SP=10000 FP=00000 CNT=0 ---- | 0000 mov sp, fp | DR<-mem[AR], PC<-PC+4 | MISS line 0: word 3, tick 3/10 ; main
+  t=35     mPC=01 IR=00000000 PC=0000 AR=0000 DR=00000000 BR=00000000 R0=00000000 R1=00000000 SP=10000 FP=00000 CNT=0 ---- | 0000 mov sp, fp | DR<-mem[AR], PC<-PC+4 | MISS line 0: word 3, tick 4/10 ; main
+  t=36     mPC=01 IR=00000000 PC=0000 AR=0000 DR=00000000 BR=00000000 R0=00000000 R1=00000000 SP=10000 FP=00000 CNT=0 ---- | 0000 mov sp, fp | DR<-mem[AR], PC<-PC+4 | MISS line 0: word 3, tick 5/10 ; main
+  t=37     mPC=01 IR=00000000 PC=0000 AR=0000 DR=00000000 BR=00000000 R0=00000000 R1=00000000 SP=10000 FP=00000 CNT=0 ---- | 0000 mov sp, fp | DR<-mem[AR], PC<-PC+4 | MISS line 0: word 3, tick 6/10 ; main
+  t=38     mPC=01 IR=00000000 PC=0000 AR=0000 DR=00000000 BR=00000000 R0=00000000 R1=00000000 SP=10000 FP=00000 CNT=0 ---- | 0000 mov sp, fp | DR<-mem[AR], PC<-PC+4 | MISS line 0: word 3, tick 7/10 ; main
+  t=39     mPC=01 IR=00000000 PC=0000 AR=0000 DR=00000000 BR=00000000 R0=00000000 R1=00000000 SP=10000 FP=00000 CNT=0 ---- | 0000 mov sp, fp | DR<-mem[AR], PC<-PC+4 | MISS line 0: word 3, tick 8/10 ; main
+  t=40     mPC=01 IR=00000000 PC=0000 AR=0000 DR=00000000 BR=00000000 R0=00000000 R1=00000000 SP=10000 FP=00000 CNT=0 ---- | 0000 mov sp, fp | DR<-mem[AR], PC<-PC+4 | MISS line 0: word 3, tick 9/10 ; main
+  t=41     mPC=01 IR=00000000 PC=0000 AR=0000 DR=00000000 BR=00000000 R0=00000000 R1=00000000 SP=10000 FP=00000 CNT=0 ---- | 0000 mov sp, fp | DR<-mem[AR], PC<-PC+4 | MISS line 0: word 3, tick 10/10 ; main
+  t=42     mPC=01 IR=00000000 PC=0004 AR=0000 DR=01161700 BR=00000000 R0=00000000 R1=00000000 SP=10000 FP=00000 CNT=0 ---- | 0000 mov sp, fp | DR<-mem[AR], PC<-PC+4 | HIT line 0 ; main
+  t=43     mPC=02 IR=01161700 PC=0004 AR=0000 DR=01161700 BR=00000000 R0=00000000 R1=00000000 SP=10000 FP=00000 CNT=0 ---- | 0000 mov sp, fp | IR<-DR ; main
+  t=44     mPC=38 IR=01161700 PC=0004 AR=0000 DR=01161700 BR=00000000 R0=00000000 R1=00000000 SP=10000 FP=00000 CNT=0 ---- | 0000 mov sp, fp | SPEC<-IR.spec1 ; main
+  t=45     mPC=03 IR=01161700 PC=0004 AR=0000 DR=01161700 BR=00010000 R0=00000000 R1=00000000 SP=10000 FP=00000 CNT=0 ---- | 0000 mov sp, fp | BR<-reg ; main
+  t=46     mPC=39 IR=01161700 PC=0004 AR=0000 DR=01161700 BR=00010000 R0=00000000 R1=00000000 SP=10000 FP=00000 CNT=0 ---- | 0000 mov sp, fp | SPEC<-IR.spec2 ; main
+  t=47     mPC=40 IR=01161700 PC=0004 AR=0000 DR=01161700 BR=00010000 R0=00000000 R1=00000000 SP=10000 FP=10000 CNT=0 ---- | 0000 mov sp, fp | reg<-BR ; main
+  t=48     mPC=00 IR=01161700 PC=0004 AR=0004 DR=01161700 BR=00010000 R0=00000000 R1=00000000 SP=10000 FP=10000 CNT=0 ---- | 0004 sub #4, sp | AR<-PC ; main
+  t=49     mPC=01 IR=01161700 PC=0008 AR=0004 DR=04201600 BR=00010000 R0=00000000 R1=00000000 SP=10000 FP=10000 CNT=0 ---- | 0004 sub #4, sp | DR<-mem[AR], PC<-PC+4 | HIT line 0 ; main
+  t=50     mPC=02 IR=04201600 PC=0008 AR=0004 DR=04201600 BR=00010000 R0=00000000 R1=00000000 SP=10000 FP=10000 CNT=0 ---- | 0004 sub #4, sp | IR<-DR ; main
+  t=51     mPC=27 IR=04201600 PC=0008 AR=0004 DR=04201600 BR=00010000 R0=00000000 R1=00000000 SP=10000 FP=10000 CNT=0 ---- | 0004 sub #4, sp | SPEC<-IR.spec1 ; main
+  t=52     mPC=04 IR=04201600 PC=0008 AR=0008 DR=04201600 BR=00010000 R0=00000000 R1=00000000 SP=10000 FP=10000 CNT=0 ---- | 0004 sub #4, sp | AR<-PC ; main
+  t=53     mPC=05 IR=04201600 PC=000C AR=0008 DR=00000004 BR=00010000 R0=00000000 R1=00000000 SP=10000 FP=10000 CNT=0 ---- | 0004 sub #4, sp | DR<-mem[AR], PC<-PC+4 | HIT line 0 ; main
+  t=54     mPC=06 IR=04201600 PC=000C AR=0008 DR=00000004 BR=00000004 R0=00000000 R1=00000000 SP=10000 FP=10000 CNT=0 ---- | 0004 sub #4, sp | BR<-DR ; main
+  t=55     mPC=28 IR=04201600 PC=000C AR=0008 DR=00000004 BR=00000004 R0=00000000 R1=00000000 SP=10000 FP=10000 CNT=0 ---- | 0004 sub #4, sp | SPEC<-IR.spec2 ; main
+  t=56     mPC=29 IR=04201600 PC=000C AR=0008 DR=00000004 BR=00000004 R0=00000000 R1=00000000 SP=0FFFC FP=10000 CNT=0 ---- | 0004 sub #4, sp | reg<-reg op BR ; main
+  t=57     mPC=00 IR=04201600 PC=000C AR=000C DR=00000004 BR=00000004 R0=00000000 R1=00000000 SP=0FFFC FP=10000 CNT=0 ---- | 000C mov #1, r0 | AR<-PC ; (setq x 1)
+  t=58     mPC=01 IR=04201600 PC=0010 AR=000C DR=01201000 BR=00000004 R0=00000000 R1=00000000 SP=0FFFC FP=10000 CNT=0 ---- | 000C mov #1, r0 | DR<-mem[AR], PC<-PC+4 | HIT line 0 ; (setq x 1)
+  t=59     mPC=02 IR=01201000 PC=0010 AR=000C DR=01201000 BR=00000004 R0=00000000 R1=00000000 SP=0FFFC FP=10000 CNT=0 ---- | 000C mov #1, r0 | IR<-DR ; (setq x 1)
+  t=60     mPC=38 IR=01201000 PC=0010 AR=000C DR=01201000 BR=00000004 R0=00000000 R1=00000000 SP=0FFFC FP=10000 CNT=0 ---- | 000C mov #1, r0 | SPEC<-IR.spec1 ; (setq x 1)
+  ... пропущено тактов: 160531 ...
+  t=160592 mPC=60 IR=19000000 PC=0284 AR=FFF4 DR=00000284 BR=00010000 R0=0000000A R1=FFFFFFFC SP=0FFF4 FP=10000 CNT=0 ---- | 0394 ret | PC<-DR ; (defun show (x) ...)
+  t=160593 mPC=61 IR=19000000 PC=0284 AR=FFF4 DR=00000284 BR=00010000 R0=0000000A R1=FFFFFFFC SP=0FFF8 FP=10000 CNT=0 ---- | 0394 ret | SP<-SP+4 ; (defun show (x) ...)
+  t=160594 mPC=00 IR=19000000 PC=0284 AR=0284 DR=00000284 BR=00010000 R0=0000000A R1=FFFFFFFC SP=0FFF8 FP=10000 CNT=0 ---- | 0284 add #4, sp | AR<-PC ; (show (fib 12))
+  t=160595 mPC=01 IR=19000000 PC=0288 AR=0284 DR=02201600 BR=00010000 R0=0000000A R1=FFFFFFFC SP=0FFF8 FP=10000 CNT=0 ---- | 0284 add #4, sp | DR<-mem[AR], PC<-PC+4 | HIT line 40 ; (show (fib 12))
+  t=160596 mPC=02 IR=02201600 PC=0288 AR=0284 DR=02201600 BR=00010000 R0=0000000A R1=FFFFFFFC SP=0FFF8 FP=10000 CNT=0 ---- | 0284 add #4, sp | IR<-DR ; (show (fib 12))
+  t=160597 mPC=27 IR=02201600 PC=0288 AR=0284 DR=02201600 BR=00010000 R0=0000000A R1=FFFFFFFC SP=0FFF8 FP=10000 CNT=0 ---- | 0284 add #4, sp | SPEC<-IR.spec1 ; (show (fib 12))
+  t=160598 mPC=04 IR=02201600 PC=0288 AR=0288 DR=02201600 BR=00010000 R0=0000000A R1=FFFFFFFC SP=0FFF8 FP=10000 CNT=0 ---- | 0284 add #4, sp | AR<-PC ; (show (fib 12))
+  t=160599 mPC=05 IR=02201600 PC=028C AR=0288 DR=00000004 BR=00010000 R0=0000000A R1=FFFFFFFC SP=0FFF8 FP=10000 CNT=0 ---- | 0284 add #4, sp | DR<-mem[AR], PC<-PC+4 | HIT line 40 ; (show (fib 12))
+  t=160600 mPC=06 IR=02201600 PC=028C AR=0288 DR=00000004 BR=00000004 R0=0000000A R1=FFFFFFFC SP=0FFF8 FP=10000 CNT=0 ---- | 0284 add #4, sp | BR<-DR ; (show (fib 12))
+  t=160601 mPC=28 IR=02201600 PC=028C AR=0288 DR=00000004 BR=00000004 R0=0000000A R1=FFFFFFFC SP=0FFF8 FP=10000 CNT=0 ---- | 0284 add #4, sp | SPEC<-IR.spec2 ; (show (fib 12))
+  t=160602 mPC=29 IR=02201600 PC=028C AR=0288 DR=00000004 BR=00000004 R0=0000000A R1=FFFFFFFC SP=0FFFC FP=10000 CNT=0 ---- | 0284 add #4, sp | reg<-reg op BR ; (show (fib 12))
+  t=160603 mPC=00 IR=02201600 PC=028C AR=028C DR=00000004 BR=00000004 R0=0000000A R1=FFFFFFFC SP=0FFFC FP=10000 CNT=0 ---- | 028C halt | AR<-PC ; main
+  t=160604 mPC=01 IR=02201600 PC=0290 AR=028C DR=00000000 BR=00000004 R0=0000000A R1=FFFFFFFC SP=0FFFC FP=10000 CNT=0 ---- | 028C halt | DR<-mem[AR], PC<-PC+4 | HIT line 40 ; main
+  t=160605 mPC=02 IR=00000000 PC=0290 AR=028C DR=00000000 BR=00000004 R0=0000000A R1=FFFFFFFC SP=0FFFC FP=10000 CNT=0 ---- | 028C halt | IR<-DR ; main
+  t=160606 mPC=62 IR=00000000 PC=0290 AR=028C DR=00000000 BR=00000004 R0=0000000A R1=FFFFFFFC SP=0FFFC FP=10000 CNT=0 ---- | 028C halt | halt ; main

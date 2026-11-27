@@ -1,0 +1,6 @@
+(setq name (array 32))
+(print-str "What is your name?\n")
+(read-line name 31)
+(print-str "Hello, ")
+(print-str name)
+(print-str "!\n")
